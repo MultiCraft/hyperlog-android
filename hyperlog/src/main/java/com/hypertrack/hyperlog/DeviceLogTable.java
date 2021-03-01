@@ -42,8 +42,7 @@ import java.util.List;
 
 class DeviceLogTable {
 
-    private static final String TAG = DeviceLogTable.class.getSimpleName();
-    private static final int DEVICE_LOG_REQUEST_QUERY_LIMIT = 5000;
+    private static final int DEVICE_LOG_REQUEST_QUERY_LIMIT = 10000;
 
     private static final String TABLE_NAME = "device_logs";
     private static final String COLUMN_ID = "_id";
@@ -65,7 +64,6 @@ class DeviceLogTable {
             db.execSQL(DATABASE_CREATE);
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while onCreate: " + e);
         }
     }
 
@@ -77,11 +75,8 @@ class DeviceLogTable {
         try {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
-
-            HyperLog.i("HYPERLOG", "DeviceLogTable onUpgrade called. Executing drop_table query to clear old logs.");
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while onUpgrade: " + e);
         }
     }
 
@@ -94,7 +89,6 @@ class DeviceLogTable {
             return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while getCount: " + e);
             return 0L;
         }
     }
@@ -109,7 +103,6 @@ class DeviceLogTable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while getDeviceLogBatchCount: " + e);
             return 0;
         }
     }
@@ -126,7 +119,6 @@ class DeviceLogTable {
             db.insert(TABLE_NAME, null, contentValues);
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while addDeviceLog: " + e);
         }
     }
 
@@ -158,7 +150,6 @@ class DeviceLogTable {
             db.delete(TABLE_NAME, whereClause, null);
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while deleteDeviceLog: " + e);
         }
     }
 
@@ -171,7 +162,6 @@ class DeviceLogTable {
             db.delete(TABLE_NAME, null, null);
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while deleteAllDeviceLogs: " + e);
         }
     }
 
@@ -218,7 +208,6 @@ class DeviceLogTable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while getDeviceLogs: " + e);
         } finally {
             cursor.close();
         }
@@ -242,7 +231,6 @@ class DeviceLogTable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            HyperLog.e("HYPERLOG", "DeviceLogTable: Exception occurred while deleteAllDeviceLogs: " + e);
         }
     }
 }

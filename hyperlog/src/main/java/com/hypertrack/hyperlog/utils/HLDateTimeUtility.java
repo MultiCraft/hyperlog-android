@@ -54,10 +54,9 @@ public class HLDateTimeUtility {
             dateFormat.setTimeZone(TimeZone.getTimeZone(HT_TIMEZONE_UTC));
             currentTime = dateFormat.format(new Date());
         } catch (Exception e) {
-            HyperLog.e("HYPERLOG", "Exception while getCurrentTime: " + e);
             currentTime = "";
         }
-        return currentTime != null ? currentTime : "";
+        return currentTime;
     }
 
     public static String getFormattedTime(Date date) {
@@ -70,7 +69,7 @@ public class HLDateTimeUtility {
             dateFormat.setTimeZone(TimeZone.getTimeZone(HT_TIMEZONE_UTC));
             return dateFormat.format(date);
         } catch (Exception e) {
-            HyperLog.e("HYPERLOG", "Exception while getFormattedTime: " + e);
+            e.printStackTrace();
         }
 
         return getCurrentTime();
@@ -85,7 +84,7 @@ public class HLDateTimeUtility {
             format.setTimeZone(TimeZone.getTimeZone(HT_TIMEZONE_UTC));
             return format.parse(time);
         } catch (Exception e) {
-            HyperLog.e("HYPERLOG", "Exception while getFormattedDate: " + e);
+            e.printStackTrace();
         }
 
         return new Date();

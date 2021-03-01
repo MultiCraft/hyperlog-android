@@ -52,7 +52,6 @@ import java.util.zip.GZIPOutputStream;
 
 class HLHTTPMultiPartPostRequest<T> extends Request<T> {
 
-    private static final String TAG = HLHTTPMultiPartPostRequest.class.getSimpleName();
     private final Gson mGson;
     private final Class<T> mResponseType;
     private final Response.Listener<T> mListener;
@@ -101,10 +100,8 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
                 return compressed;
 
             } catch (Exception exception) {
-                HyperLog.e("HYPERLOG", "Exception occurred while getCompressed: " + exception);
                 mGzipEnabled = false;
             } catch (OutOfMemoryError error) {
-                HyperLog.e("HYPERLOG", "OutOfMemory Error occurred while getCompressed: " + error);
                 mGzipEnabled = false;
             }
         }
@@ -115,14 +112,12 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
     private byte[] getRequestBody(byte[] requestBody) {
         byte[] compressedRequestBody = getCompressed(requestBody);
         if (mGzipEnabled) {
-            HyperLog.i("HYPERLOG", "Compressed FileSize: " + compressedRequestBody.length + " Bytes");
             return compressedRequestBody;
         } else {
             try {
-                HyperLog.i("HYPERLOG", "Compressed FileSize: " + requestBody.length + " Bytes");
                 return requestBody;
             } catch (Exception exception) {
-                HyperLog.e("HYPERLOG", "Exception occurred while getRequestBody: " + exception);
+                exception.printStackTrace();
             }
         }
         return null;
@@ -151,7 +146,7 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
             is.close();
             return string.toString();
         } catch (Exception exception) {
-            HyperLog.e("HYPERLOG", "Exception occurred while getDecompressed: " + exception);
+            exception.printStackTrace();
         }
         return null;
     }
@@ -190,12 +185,8 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
         try {
             String json = new String(
                     volleyError.networkResponse.data, HttpHeaderParser.parseCharset(volleyError.networkResponse.headers));
-
-            HyperLog.i("HYPERLOG", "Status Code: " + volleyError.networkResponse.statusCode +
-                    " Data: " + json);
-
         } catch (Exception e) {
-            HyperLog.e("HYPERLOG", "Exception occurred while HTTPPatchRequest parseNetworkError: " + e, e);
+            e.printStackTrace();
         }
 
         return super.parseNetworkError(volleyError);
@@ -219,7 +210,6 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
 
     @Override
     protected void deliverResponse(T response) {
-        HyperLog.i("HYPERLOG", "deliverResponse: ");
         if (mListener != null)
             mListener.onResponse(response);
     }

@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.hypertrack.hyperlog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
@@ -50,7 +51,6 @@ public class HyperLog {
 
     private static final String TAG = "HyperLog";
     public static final String TAG_ASSERT = "ASSERT";
-    public static final String TAG_HYPERLOG = "HYPERLOG";
 
     private static int logLevel = Log.WARN;
 
@@ -58,6 +58,7 @@ public class HyperLog {
     private static String URL;
     private static final int EXPIRY_TIME = 7 * 24 * 60 * 60;// 7 Days
     private static LogFormat mLogFormat;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static ExecutorService executorService;
 
@@ -110,7 +111,6 @@ public class HyperLog {
                                   @NonNull LogFormat logFormat) {
 
         if (context == null) {
-            Log.e(TAG, "HyperLog isn't initialized: Context couldn't be null");
             return;
         }
 
@@ -492,8 +492,6 @@ public class HyperLog {
                 if (file != null) {
                     if (deleteLogs)
                         mDeviceLogList.clearDeviceLogs(deviceLogList);
-                    HyperLog.i("HYPERLOG", "Log File has been created at " +
-                            file.getAbsolutePath());
                 }
             }
             logsBatchCount--;
@@ -620,15 +618,12 @@ public class HyperLog {
             return;
 
         if (TextUtils.isEmpty(URL)) {
-            HyperLog.e("HYPERLOG", "API endpoint URL is missing. Set URL using " +
-                    "HyperLog.setURL method");
             return;
         }
 
         VolleyUtils.cancelPendingRequests(mContext, TAG);
 
         if (TextUtils.isEmpty(URL)) {
-            HyperLog.e("HYPERLOG", "URL is missing. Please set the URL to push the logs.");
             return;
         }
         if (!hasPendingDeviceLogs())
@@ -643,9 +638,6 @@ public class HyperLog {
         while (logsBatchCount != 0) {
 
             final List<DeviceLogModel> deviceLogs = getDeviceLogs(false, logsBatchCount);
-            deviceLogs.add(new DeviceLogModel(getFormattedLog(Log.INFO, TAG_HYPERLOG,
-                    "Log Counts: " + deviceLogs.size() + " | File Size: " +
-                            deviceLogs.toString().length() + " bytes.")));
             //Get string data into byte format.
             byte[] bytes = Utils.getByteData(deviceLogs);
 
@@ -660,7 +652,6 @@ public class HyperLog {
                         public void onResponse(Object response) {
                             temp[0]--;
                             mDeviceLogList.clearDeviceLogs(deviceLogs);
-                            HyperLog.i("HYPERLOG", "Log has been pushed");
 
                             if (callback != null && temp[0] == 0) {
                                 if (isAllLogsPushed[0]) {
@@ -679,8 +670,6 @@ public class HyperLog {
                             isAllLogsPushed[0] = false;
                             temp[0]--;
                             error.printStackTrace();
-                            HyperLog.exception(TAG, "Error has occurred while pushing " +
-                                    "logs: ", error);
 
                             if (temp[0] == 0) {
                                 if (callback != null) {

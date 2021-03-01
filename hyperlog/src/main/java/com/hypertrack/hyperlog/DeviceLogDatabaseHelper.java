@@ -27,7 +27,6 @@ package com.hypertrack.hyperlog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.List;
 
@@ -36,7 +35,6 @@ import java.util.List;
  */
 class DeviceLogDatabaseHelper extends SQLiteOpenHelper implements DeviceLogDataSource {
 
-    private static final String TAG = DeviceLogDatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "com.hypertrack.common.device_logs.db";
     private static final int DATABASE_VERSION = 2;
 
@@ -50,7 +48,11 @@ class DeviceLogDatabaseHelper extends SQLiteOpenHelper implements DeviceLogDataS
 
     private void initializeDatabase() {
         if (database == null)
-            database = this.getWritableDatabase();
+            try {
+                database = this.getWritableDatabase();
+            } catch (Exception e) {
+                database = null;
+            }
     }
 
     static DeviceLogDatabaseHelper getInstance(Context context) {
@@ -66,13 +68,11 @@ class DeviceLogDatabaseHelper extends SQLiteOpenHelper implements DeviceLogDataS
     @Override
     public void onCreate(SQLiteDatabase db) {
         DeviceLogTable.onCreate(db);
-        Log.d(TAG, "DeviceLogDatabaseHelper onCreate called.");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         DeviceLogTable.onUpgrade(db, oldVersion, newVersion);
-        Log.d(TAG, "DeviceLogDatabaseHelper onUpgrade called.");
     }
 
     @Override
