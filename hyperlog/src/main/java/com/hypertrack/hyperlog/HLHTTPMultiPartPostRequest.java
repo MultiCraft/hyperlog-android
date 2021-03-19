@@ -167,9 +167,7 @@ class HLHTTPMultiPartPostRequest<T> extends Request<T> {
         }
 
         if (this.additionalHeaders != null) {
-            Iterator<Map.Entry<String, String>> iterator = this.additionalHeaders.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, String> header = iterator.next();
+            for (Map.Entry<String, String> header : this.additionalHeaders.entrySet()) {
                 params.put(header.getKey(), header.getValue());
             }
         }

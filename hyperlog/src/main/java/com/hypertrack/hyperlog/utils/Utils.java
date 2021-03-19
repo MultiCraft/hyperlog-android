@@ -31,7 +31,6 @@ import android.text.TextUtils;
 
 import com.google.gson.GsonBuilder;
 import com.hypertrack.hyperlog.DeviceLogModel;
-import com.hypertrack.hyperlog.HyperLog;
 import com.hypertrack.hyperlog.LogFormat;
 
 import java.io.BufferedWriter;
@@ -40,8 +39,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Aman on 20/09/17.

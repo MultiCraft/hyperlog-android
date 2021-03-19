@@ -14,7 +14,7 @@ public class HLErrorCode {
         AUTH_ERROR
     }
 
-    public class Code {
+    public static class Code {
 
         public static final short NETWORK_DISABLED_ERROR = 107;
         public static final short NETWORK_UNAVAILABLE_ERROR = 108;
@@ -44,7 +44,7 @@ public class HLErrorCode {
         public static final short GATEWAY_TIMEOUT = 504;
     }
 
-    public class Message {
+    public static class Message {
         public static final String NETWORK_DISABLED_ERROR =
                 "Network Connection disabled. Please check your network connectivity and try again.";
 
