@@ -24,7 +24,7 @@ SOFTWARE.
 */
 package com.hypertrack.hyperlog;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hypertrack.hyperlog.error.HLErrorResponse;
 
@@ -38,13 +38,13 @@ public abstract class HLCallback {
      *
      * @param response The successful response containing the responseObject.
      */
-    public abstract void onSuccess(@NonNull Object response);
+    public abstract void onSuccess(@Nullable Object response);
 
     /**
      * Called when a validation error occurs, request times out, or fails.
      *
      * @param HLErrorResponse The request status.
      */
-    public abstract void onError(@NonNull HLErrorResponse HLErrorResponse);
+    public abstract void onError(@Nullable HLErrorResponse HLErrorResponse);
 
 }
